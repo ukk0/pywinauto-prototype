@@ -1,6 +1,4 @@
 import os
-from time import sleep
-
 import pytest
 
 from page_object import LogCollector
