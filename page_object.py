@@ -14,6 +14,9 @@ class LogCollector:
         self.collect_button = self.dlg.child_window(
             title="Collect", control_type="Button"
         )
+        self.operation_log = self.dlg.child_window(
+            title="Operation log", auto_id="1001", control_type="Edit"
+        )
         self.close_button = self.dlg.child_window(title="Close", control_type="Button")
         self.ok_button = self.dlg.child_window(title="OK", control_type="Button")
 
@@ -39,3 +42,6 @@ class LogCollector:
 
     def close_application(self):
         self.close_button.click()
+
+    def log_text(self):
+        return self.operation_log.iface_value.CurrentValue

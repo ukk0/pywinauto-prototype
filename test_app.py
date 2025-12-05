@@ -1,4 +1,6 @@
 import os
+from time import sleep
+
 import pytest
 
 from page_object import LogCollector
@@ -13,7 +15,9 @@ EXE_PATH = os.getenv("EXE_PATH")
 # Starts application and returns the page object model
 @pytest.fixture
 def collector_app():
-    return LogCollector(exe_path=EXE_PATH, app_title_re=".*Log Collector.*")
+    collector = LogCollector(exe_path=EXE_PATH, app_title_re=".*Log Collector.*")
+    yield collector
+    collector.close_application()
 
 
 def test_basic_flow(collector_app):
@@ -21,4 +25,4 @@ def test_basic_flow(collector_app):
     collector_app.toggle_checkbox_on(checkbox_label="PowerShell history")
     collector_app.start_collection()
     collector_app.close_confirmation_popup()
-    collector_app.close_application()
+    assert "All files have been collected and archived." in collector_app.log_text()
